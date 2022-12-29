@@ -14,14 +14,13 @@ module.exports = {
         
         var txt = `Showing the ***${queue} queue***\n`;
 
-        l.forEach(ticket => {
-            console.log(ticket);
+        l.forEach((ticket, key) => {
             const user = interaction.guild.members.cache.get(ticket.get("discord"));
-            var tmptxt = `Genre: ${ticket.get("genre")}\nDiscord: ${user}\nContact Info: ${ticket.get("irl_contact")}`;
+            var tmptxt = `**Ticket #${key}**:\nGenre: ${ticket.get("genre")}\nDiscord: ${user}\nContact Info: ${ticket.get("irl_contact")}`;
             txt += `============================\n${tmptxt}\n`;
         });
 
-        interaction.reply(txt).catch(() => { interaction.channel.send(txt); });
+        interaction.reply({content: txt, ephemeral: true}).catch(() => { interaction.channel.send(txt); });
     },
     options: [
         {name: 'queue', description: "Display all tickets in a given queue", type: ApplicationCommandOptionType.String, choices: [{name: "producers", value: "producers"}, {name: "songwriters", value: "songwriters"}, {name: "vocalists", value: "vocalists"}], required: true}

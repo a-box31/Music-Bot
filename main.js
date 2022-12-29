@@ -34,10 +34,14 @@ fs.readdirSync('./commands')
 
 bot.lists = new Map();
 // <Ticket, <genre, contact>>
-bot.lists.set("producers", new Map())
-bot.lists.set("songwriters", new Map())
-bot.lists.set("vocalists", new Map())
-bot.currentTickets = 0;
+bot.lists.set("producers", new Map());
+bot.lists.set("songwriters", new Map());
+bot.lists.set("vocalists", new Map());
+
+bot.currentTickets = new Map();
+bot.currentTickets.set("producers", 0);
+bot.currentTickets.set("songwriters", 0);
+bot.currentTickets.set("vocalists", 0);
 
 
 bot.on('ready', async () => {
