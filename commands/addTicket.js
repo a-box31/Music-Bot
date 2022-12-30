@@ -15,17 +15,18 @@ module.exports = {
         var contact = options.filter((obj) => { return (obj.name == 'irl_contact'); })[0];
 
         // Error checking
-        if (!genre) { return interaction.reply("Please specify a genre"); }
+        if (!genre) { return interaction.reply({content: "Please specify a genre", ephemeral: true}); }
         if (!contact) { contact = {value: "N/A"}; }
 
         // Get the correct queue and add the ticket to it
-        bot.lists.get(name).set(String(bot.currentTickets.get(name)), new Map([["genre", contact.value], ["discord", interaction.user.id], ["irl_contact", genre.value]]));
+        const pos = String(bot.currentTickets.get(name));
+        bot.lists.get(name).set(pos, new Map([["genre", contact.value], ["discord", interaction.user.id], ["irl_contact", genre.value]]));
 
         // Increment that queue's count
         bot.currentTickets.set(name, bot.currentTickets.get(name) + 1);
 
         
-        interaction.reply({content: "Ticket added to queue", ephemeral: true});
+        interaction.reply({content: `${interaction.user} added ticket #${pos} to the ${name} queue!`});
     },
     options: [
         {name: 'producers', description: 'play a song', type: ApplicationCommandOptionType.Subcommand, options: [
